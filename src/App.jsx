@@ -81,11 +81,7 @@ const App = () => {
     });
   };
 
-  // Add a row to the table
-  const addRow = () => {
-    const hotInstance = hotRef.current.hotInstance;
-    hotInstance.alter("insert_row", hotInstance.countRows());
-  };
+  
 
   // Delete a row from the table
   const deleteRow = () => {
@@ -93,12 +89,24 @@ const App = () => {
     hotInstance.alter("remove_row", hotInstance.countRows() - 1);
   };
 
-  // Add a column to the table
-  const addColumn = () => {
+  
+  const addRow = () => {
     const hotInstance = hotRef.current.hotInstance;
-    hotInstance.alter("insert_col", hotInstance.countCols());
+    if (hotInstance) {
+      const data = hotInstance.getData();
+      data.push(Array(hotInstance.countCols()).fill(""));
+      hotInstance.loadData(data);
+    }
   };
 
+  const addColumn = () => {
+    const hotInstance = hotRef.current.hotInstance;
+    if (hotInstance) {
+      const data = hotInstance.getData();
+      data.forEach((row) => row.push("")); // Add empty column to each row
+      hotInstance.loadData(data);
+    }
+  };
   // Delete a column from the table
   const deleteColumn = () => {
     const hotInstance = hotRef.current.hotInstance;
@@ -219,7 +227,6 @@ const App = () => {
     setResult("Duplicates removed!");
   };
 
-  
   return (
     <div className="app-container">
       <h2>Google Sheets Clone</h2>
