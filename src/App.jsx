@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Handsontable from "handsontable";
 import "handsontable/dist/handsontable.full.css";
-import { Line, Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -79,9 +79,14 @@ const App = () => {
       labels: data.slice(1).map((_, index) => `Row ${index + 1}`), // Row numbers as labels
       datasets: datasets,
     });
-  };
 
-  
+    // Scroll to the chart section
+    const chartSection = document.querySelector(".chart-section");
+    if (chartSection) {
+      chartSection.scrollIntoView({ behavior: "smooth" });
+    }
+    alert(" Success : Chart generated! Scroll down to view the chart.");
+  };
 
   // Delete a row from the table
   const deleteRow = () => {
@@ -89,7 +94,6 @@ const App = () => {
     hotInstance.alter("remove_row", hotInstance.countRows() - 1);
   };
 
-  
   const addRow = () => {
     const hotInstance = hotRef.current.hotInstance;
     if (hotInstance) {
@@ -107,6 +111,7 @@ const App = () => {
       hotInstance.loadData(data);
     }
   };
+
   // Delete a column from the table
   const deleteColumn = () => {
     const hotInstance = hotRef.current.hotInstance;
@@ -228,7 +233,7 @@ const App = () => {
   };
 
   return (
-    <div className="app-container">
+    <div className="app-container smooth-scroll">
       <h2>Google Sheets Clone</h2>
       <div className="toolbar">
         <button onClick={addRow}>Add Row</button>
@@ -280,7 +285,7 @@ const App = () => {
 
       <div ref={hotRef} style={{ height: "400px", width: "100%" }}></div>
 
-      <div style={{ marginTop: "30px", width: "80%" }}>
+      <div className="chart-section" style={{ marginTop: "30px", width: "80%" }}>
         {chartData.datasets && (
           <Line data={chartData} options={{ responsive: true }} />
         )}
