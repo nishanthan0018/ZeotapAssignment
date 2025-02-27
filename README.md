@@ -59,8 +59,12 @@ Follow these steps to set up and run the Google Sheets Clone app on your local m
    cd google-sheets-clone
 2.Install dependencies:
 npm install
+
+
 3.Running the App
 Start the development server:
 npm run dev
+
+
 4.Open your browser and navigate to:
 http://localhost:5173
